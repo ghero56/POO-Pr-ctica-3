@@ -1,0 +1,75 @@
+ejercicios
+  clase de numeros complejos
+    recibir argumentos por linea de comandos
+    suma
+    resta
+    multiplicacion
+    division
+    representacion polar
+
+  clase que implemente gauss jordan para solucion de ec de max 3 incognitas 
+
+  investigar
+    clase Properties <- Hashtable
+      es para cadenas pero sobre todo para variables de entorno
+      metodos mas utilizados
+
+  crear un programa que obtenga las caracteristicas del sistema (dxdiag)
+
+
+arreglos
+  tipo[] nombre // mas de una var
+  tipo nombre[] // solo una
+  declaracion directa o con new
+  inmutables
+
+for each
+for(tipo indice : Arreglo){
+
+}
+
+ejemplo 1 -> main -> string args -> 3 argumentos
+ejemplo 2 -> //   -> // -> for each
+
+cadenas
+  inmutables
+  son objetos
+  metodos en la clase:
+    String(valores) en el constructor
+    cadena.length()
+    cadena.toUpperCase()
+    StringBuilder()
+      mutable
+      append e insert
+    StringBuffer() -> no usa hilos
+
+wrappers
+  son objetos de tipos primitivos
+  pueden crear a partir de cadenas
+
+colecciones
+  arreglo de objetos
+    dinamicas
+  Set
+  Listas
+    orden y  duplicados
+  Mapas
+    <llave,valor>
+  ArrayList
+    mejor memoria
+    ArrayList<tipo> nombre = new ArrayList<tipo>();
+      add -> 1 a 2 params (elem || index, elem)
+      get -> 1 param index
+      remove -> 1 param index
+      clear -> sin params solo limpia
+      indexOf -> 1 param elem
+      size -> sin params solo da el tamaño
+  hashtable
+    claves unicas
+    bases de datos
+    Hashtable<tipoClave , tipo> var = new Hashtable<tipoClave , tipo>();
+      put(clave, valor)
+      containsKey(clave)
+      get(clave)
+      remove(clave)
+      size()
