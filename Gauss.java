@@ -1,3 +1,4 @@
+import java.util.Scanner;
 /**
 * @author Código elaborado en la práctica 2 por:
 * Fernando Arciga Guzmán:      4
@@ -11,161 +12,247 @@ public class Gauss{
   /**
   * Metodo calc3x3
   */
-  public static double[] calc3x3(
-    double x1, double y1, double z1, double r1,
-    double x2, double y2, double z2, double r2,
-    double x3, double y3, double z3, double r3
-  ){
-    double[] res,tmp;
-    double[] res = new Array[3]; // x y z
-    double[] f1 = new Array[5];  // x y z r mult
-    double[] f2 = new Array[4];  // y z r mult
-    if(x3 != 0 && x1 != 0){
-      if( (x3 > 0 && x1 > 0) || (x3 < 0 && x1 < 0) ){
-        f1[4] = (x3/x1);  // multiplicador de fila valor residual
-        f1[3] = r1*f1[4]; // multiplicacion en resultado
-        f1[2] = z1*f1[4]; // multiplicacion en z
-        f1[1] = y1*f1[4]; // multiplicacion en y
-        f1[0] = x1*f1[4]; // multiplicacion en x
-        x3 -= f1[0];
-        y3 -= f1[1];
-        z3 -= f1[2];
-        r3 -= f1[3];
-      }else{
-        f1[4] = (x3/x1);  // multiplicador de fila valor residual
-        f1[3] = r1*f1[4]; // multiplicacion en resultado
-        f1[2] = z1*f1[4]; // multiplicacion en z
-        f1[1] = y1*f1[4]; // multiplicacion en y
-        f1[0] = x1*f1[4]; // multiplicacion en x
-        x3 += f1[0];
-        y3 += f1[1];
-        z3 += f1[2];
-        r3 += f1[3];
-      }
-    }
-    if(x2 != 0 && x1 != 0){
-      if((x2 > 0 && x1 > 0) || (x2 < 0 && x1 < 0)){
-        f1[4] = (x2/x1);  // multiplicador de fila valor residual
-        f1[3] = r1*f1[4]; // multiplicacion en resultado
-        f1[2] = z1*f1[4]; // multiplicacion en z
-        f1[1] = y1*f1[4]; // multiplicacion en y
-        f1[0] = x1*f1[4]; // multiplicacion en x
-        x2 -= f1[0];
-        y2 -= f1[1];
-        z2 -= f1[2];
-        r2 -= f1[3];
-      }else{
-        f1[4] = (x2/x1);  // multiplicador de fila valor residual
-        f1[3] = r1*f1[4]; // multiplicacion en resultado
-        f1[2] = z1*f1[4]; // multiplicacion en z
-        f1[1] = y1*f1[4]; // multiplicacion en y
-        f1[0] = x1*f1[4]; // multiplicacion en x
-        x2 += f1[0];
-        y2 += f1[1];
-        z2 += f1[2];
-        r2 += f1[3];
-      }
-    }
-    if(x3 == 0 && y3 != 0 && z3 != 0){
-      tmp = calc2x2(y2,z2,r2,y3,z3,r3);
-      res[0] = -(((y1*tmp[0]) + (z1*tmp[1]) - (r1)))/x1;
-      res[1] = tmp[0];
-      res[2] = tmp[1];
-    }else{
-      if(x3 == 0 && y3 == 0 && z3 != 0){
-        res[2] = r3/z3;
-        res[1] = (-((z2*res[2]) - (r2)))/y2;
-        res[0] = (-((y1*res[1]) + (z1*res[2]) - (r1)))/x1;
-      }else{
-        if(x3 == 0 && y3 == 0 && z3 == 0){
-          System.out.println("Indeterminada");
+  public static double[] calc3x3(double[][] valores){
+    double[] tmp;
+    double[] pos = new double[3];
+    int used = 0;
+    int index_pos = 0;
+    double[] f1 = new double[4];  // x y z r
+    double[] f2 = new double[3];  // y z r
+    double[] res = new double[3]; // resultados x y z
+    if(valores[0][0] != 0 || valores[1][0] != 0 || valores[2][0] != 0){
+      if(valores[0][1] != 0 || valores[1][1] != 0 || valores[2][1] != 0){
+        if(valores[0][2] != 0 || valores[1][2] != 0 || valores[2][2] != 0){ // todas existen
+          if(valores[0][0] != 0){
+            for(int i = 0; i < 4; ++i){
+              f1[i] = valores[0][i];
+            }
+            if(valores[1][0] != 0){
+              double div = valores[1][0]/f1[0];
+              if((valores[1][0] > 0 && valores[0][0] > 0) || (valores[1][0] < 0 && valores[0][0] < 0)){
+                for(int i = 0 ; i < 4 ; ++i ){
+                  valores[1][i] -= f1[i] * div;
+                }
+              }else{
+                for(int i = 0 ; i < 4 ; ++i ){
+                  valores[1][i] += f1[i] * div;
+                }
+              }
+              if(valores[2][0] != 0){
+                div = valores[2][0]/f1[0];
+                if((valores[2][0] > 0 && valores[0][0] > 0) || (valores[2][0] < 0 && valores[0][0] < 0)){
+                  for(int i = 0 ; i < 4 ; ++i ){
+                    valores[2][i] -= f1[i] * div;
+                  }
+                }else{
+                  for(int i = 0 ; i < 4 ; ++i ){
+                    valores[2][i] += f1[i] * div;
+                  }
+                }
+              }else{
+
+              }
+            }
+          }
+          else{
+            if(valores[1][0] != 0){
+              for (int i = 0; i < 4; ++i) {
+                f1[i] = valores[0][i];
+              }
+              if(valores[2][0] != 0){
+
+              }else{
+
+              }
+            }else{
+
+            }
+          }
+          /*for(int i = 0; i < 3; i++ ){
+            for(int j = 0 ; j < 3 ; j++ ){
+              if(valores[i][j] == 0){
+                used = i;
+                intercambio(i,0,valores,res);
+              }
+            }
+          }
+          if(res[0] != 0){// tenemos x
+            if(res[1] != 0){ // tenemos y
+              if(res[2] != 0){ // tenemos z
+                return res;
+              }
+              else{
+                for(int i = 0; i < 3; ++i){
+                  if(valores[i][2] != 0){
+                    valores[i][0] *= -res[0];
+                    valores[i][1] *= -res[1];
+                    res[2] = (valores[i][3] + valores[i][0] + valores[i][1])/valores[i][2];
+                    return res;
+                  }
+                }
+              }
+            }
+            else{
+              if(res[2] != 0){ // tenemos z
+                for(int i = 0; i < 3; ++i){
+                  if(valores[i][1] != 0){
+                    valores[i][0] *= -res[0];
+                    valores[i][2] *= -res[2];
+                    res[1] = (valores[i][3] + valores[i][0] + valores[i][2])/valores[i][1];
+                    return res;
+                  }
+                }
+              }
+              else{ // ni y ni z
+                double[][] yzr= new double[2][3];
+                int i;
+                int tope;
+                if(used == 0){
+                  tope = 3;
+                  for(i=1 ; i < tope; ++i){
+                    for(int j = 1 ; j < tope ; ++j ){
+                      yzr[i-1][j] = valores[i][j];
+                      yzr[i-1][2] = valores[i][2] - (valores[i][0] * res[0]);
+                    }
+                  }
+                  tmp = calc2x2(yzr);
+                  res[1] = tmp[0];
+                  res[2] = tmp[1];
+                  return res;
+                }else if(used == 1){
+                  for(int j = 1 ; j < 3 ; ++j ){
+                    yzr[0][j] = valores[0][j];
+                    yzr[1][j] = valores[2][j];
+                    yzr[0][2] = valores[0][2] -( valores[0][0] * res[0]);
+                    yzr[1][2] = valores[1][2] -( valores[1][0] * res[0]);
+                  }
+                  tmp = calc2x2(yzr);
+                  res[1] = tmp[0];
+                  res[2] = tmp[1];
+                  return res;
+                }else{
+                  tope = 2;
+                  for(i=0 ; i < tope; ++i){
+                    for(int j = 1 ; j < tope ; ++j ){
+                      yzr[i][j] = valores[i][j];
+                      yzr[i][2] = valores[i][2] - (valores[i][0] * res[0]);
+                    }
+                  }
+                  tmp = calc2x2(yzr);
+                  res[1] = tmp[0];
+                  res[2] = tmp[1];
+                  return res;
+                }
+              }
+            }
+          }
+          else{
+            if(res[1] != 0){ // tenemos y
+              if(res[2] != 0){ // tenemos z
+
+              }else{
+
+              }
+            }else{
+              if(res[2] != 0){ // tenemos z
+
+              }else{
+
+              }
+            }
+          }*/
+        }else{ // hay xs y ys
+          System.out.println("Imposible resolverla");
           return res;
         }
+      }else{ // no hay ys
+        System.out.println("Imposible resolverla");
+        return res;
       }
+    }else{ // no hay xs
+      System.out.println("Imposible resolverla");
+      return res;
     }
     return res;
   }
   /**
   */
-  public static double[] calc2x2(
-    double x1, double y1, double r1,
-    double x2, double y2, double r2
-  ){
-    double[] res = new Array[2]; // x y
-    double[] tmp = new Array[3];
-    if(Math.abs(x1) != Math.abs(x2) && x1 != 0 && x2 != 0){
-      tmp[0] = x1;
-      tmp[1] = y1;
-      tmp[2] = r1;
-      if(x1 > 0){
-        if(x2 > 0){
-          tmp[0] *= x2; tmp[1] *= x2; tmp[2]*= x2; // (x1 + y1 = r1) * x2
-          x2 *= -x1; y2 *= -x1; r2 *= -x1;     // (x2 + y2 = r2) * -x1
-          x2 += tmp[0]; y2 += tmp[1];r2 += tmp[2];
-          // (x2 + x1) + (y2 + y1) = r2 + r1
-          res[1] = r2/y2;
-        }else{ // x2 < 0
-          tmp[0] *= x2; tmp[1] *= x2; tmp[2]*= x2; // (x1 + y1 = r1) * x2
-          x2 *= x1; y2 *= x1; r2 *= x1;     // (x2 + y2 = r2) * x1
-          x2 += tmp[0]; y2 += tmp[1];r2 += tmp[2];
-          // (x2 + x1) + (y2 + y1) = (r2 + r1)
-          res[1] = r2/y2;
+  public static double[] calc2x2(double[][] valores){
+    double[] res = new double[2]; // x y
+    double[] tmp = new double[3];
+    tmp[0] = valores[0][0];
+    tmp[1] = valores[0][1];
+    tmp[2] = valores[0][2];
+    if(Math.abs(valores[0][0]) != Math.abs(valores[1][0]) && valores[0][0] != 0 && valores[1][0] != 0){
+      if(valores[0][0] > 0){ // valores[0][0]
+        if(valores[1][0] > 0){ // valores[1][0]
+          tmp[0] *= valores[1][0]; tmp[1] *= valores[1][0]; tmp[2]*= valores[1][0]; // (valores[0][0] + valores[0][1] = valores[0][2]) * valores[1][0]
+          valores[1][0] *= -valores[0][0]; valores[1][1] *= -valores[0][0]; valores[1][2] *= -valores[0][0];     // (valores[1][0] + valores[1][1] = valores[1][2]) * -valores[0][0]
+          valores[1][0] += tmp[0]; valores[1][1] += tmp[1];valores[1][2] += tmp[2];
+          // (valores[1][0] + valores[0][0]) + (valores[1][1] + valores[0][1]) = valores[1][2] + valores[0][2]
+          res[1] = valores[1][2]/valores[1][1];
+        }else{ // -valores[1][0]
+          tmp[0] *= valores[1][0]; tmp[1] *= valores[1][0]; tmp[2]*= valores[1][0]; // (valores[0][0] + valores[0][1] = valores[0][2]) * valores[1][0]
+          valores[1][0] *= valores[0][0]; valores[1][1] *= valores[0][0]; valores[1][2] *= valores[0][0];     // (valores[1][0] + valores[1][1] = valores[1][2]) * valores[0][0]
+          valores[1][0] += tmp[0]; valores[1][1] += tmp[1];valores[1][2] += tmp[2];
+          // (valores[1][0] + valores[0][0]) + (valores[1][1] + valores[0][1]) = (valores[1][2] + valores[0][2])
+          res[1] = valores[1][2]/valores[1][1];
         }
-      }else{ // x1 < 0
-        if(x2 > 0){
-
-        }else{ // x2 < 0
-
+      }else{ // valores[0][0] < 0
+        if(valores[1][0] > 0){
+          tmp[0] *= valores[1][0]; tmp[1] *= valores[1][0]; tmp[2]*= valores[1][0]; // (valores[0][0] + valores[0][1] = valores[0][2]) * valores[1][0]
+          valores[1][0] *= valores[0][0]; valores[1][1] *= valores[0][0]; valores[1][2] *= valores[0][0];     // (valores[1][0] + valores[1][1] = valores[1][2]) * -valores[0][0]
+          valores[1][0] += tmp[0]; valores[1][1] += tmp[1];valores[1][2] += tmp[2];
+          // (valores[1][0] + valores[0][0]) + (valores[1][1] + valores[0][1]) = valores[1][2] + valores[0][2]
+          res[1] = valores[1][2]/valores[1][1];
+        }else{ // valores[1][0] < 0
+          tmp[0] *= valores[1][0]; tmp[1] *= valores[1][0]; tmp[2]*= valores[1][0]; // (valores[0][0] + valores[0][1] = valores[0][2]) * valores[1][0]
+          valores[1][0] *= -valores[0][0]; valores[1][1] *= -valores[0][0]; valores[1][2] *= -valores[0][0];     // (valores[1][0] + valores[1][1] = valores[1][2]) * -valores[0][0]
+          valores[1][0] += tmp[0]; valores[1][1] += tmp[1];valores[1][2] += tmp[2];
+          // (valores[1][0] + valores[0][0]) + (valores[1][1] + valores[0][1]) = valores[1][2] + valores[0][2]
+          res[1] = valores[1][2]/valores[1][1];
         }
       }
-    }else{
-      if(x1 < x2){
-        x1 += x2; // = 0
-        y1 += y2;
-        r1 += r2;
-        res[1] = r1/y1; // y
-      }else{ // x1 > x2
-        if(x1 > x2){
-          x2 += x1; // 0
-          y2 += y1;
-          r2 += r1;
-          res[1] = r2/y2; // y
-        }else{
-          if(x1 == 0){
-            if(y1 == 0){
-              System.out.println("valores invalidos");
-              return res;
-            }else{
-              res[1] = r1/y1;
-              if(x2 != 0){
-                if(y2 != 0){
-                  res[0] = (((-res[1])*y2) + r2)/x2;
-                  return res;
-                }
-              }else{
-                System.out.println("Valores invalidos");
-                return res;
-              }
-            }
-          }else{ // x2 == 0
-            if(y2 == 0){
-              System.out.println("valores invalidos");
-              return res;
-            }else{
-              res[1] = r2/y2;
-              if(y1 != 0){
-                res[0] = (((-res[1])*y1) + r1)/x1;
-                return res;
-              }else{
-                res[0] = r1/x1;
-                return res;
-              }
-            }
+      res[0] = (((-res[1])*valores[0][1]) + valores[0][2])/valores[0][0];
+    }else{ // o valores[0][0] == 0 o valores[1][0] == 0 + valores[0][0] == valores[1][0]
+      if(valores[0][0] == 0){
+        if(valores[0][1] == 0){
+          if(valores[0][2] == 0){
+            System.out.println("Sin solución");
+            return res;
+          }else{
+            System.out.println("Sin solución");
+            return res;
           }
+        }else{ // valores[0][1] != 0
+          if(valores[1][0] == 0){
+            System.out.println("Sin solución");
+            return res;
+          }else
+            res[1] = valores[0][2]/valores[0][1];
+          res[0] = (((-res[1])*valores[1][1]) + valores[1][2])/valores[1][0];
+          return res;
         }
       }
+      if(valores[1][0] == 0){ // valores[0][0] != 0
+        if(valores[1][1] == 0){
+          System.out.println("Sin solución");
+          return res;
+        }else
+          res[1] = valores[1][2]/valores[1][1];
+        res[0] = (((-res[1])*valores[0][1]) + valores[0][2])/valores[0][0];
+        return res;
+      }
+      if(valores[0][0] != valores[1][0]){ // + -
+        valores[1][0] += tmp[0]; valores[1][1] += tmp[1];valores[1][2] += tmp[2];
+        res[1] = valores[1][2]/valores[1][1];
+      }
+      else{ // mismo numero
+        valores[1][0] -= tmp[0]; valores[1][1] -= tmp[1];valores[1][2] -= tmp[2];
+        res[1] = valores[1][2]/valores[1][1];
+      }
+      res[0] = (((-res[1])*valores[0][1]) + valores[0][2])/valores[0][0];
     }
-    res[0] = (((-res[1])*y1) + r1)/x1;
     return res;
   }
   /**
@@ -173,7 +260,7 @@ public class Gauss{
   * recibe
   */
   public static double[] calc1x1G(double a, double b, double c){
-    double[] res = new Array[2]; // x1 x2
+    double[] res = new double[2]; // valores[0][0] x2
     if(a==0){
       System.out.println("no se puede dividir entre cero");
     }else {
@@ -186,9 +273,36 @@ public class Gauss{
   * Metodo main para realizar una prueba de codigo dentro de la clase
   */
   public static void main(String[] args) {
-    double[] arreglo3 = calc3x3(3,2,1,4,6,5,7,8,9,1,3,2);
-    for (double i : arreglo3) {
-      System.out.println("\n" + i);
+    Scanner scan = new Scanner(System.in);
+    System.out.print("Ingresa el numero de variables: ");
+    int op = scan.nextInt();
+    double[][] arreglo2 = new double[2][3];
+    switch(op){
+      case 1:
+      break;
+      case 2:
+        for(int i = 0; i < 2; ++i){
+          for(int j = 0; j < 3; ++j){
+            System.out.print("ingesa el valor ["+i+"]["+j+"]: ");
+            arreglo2[i][j] = scan.nextDouble();
+          }
+        }
+        double[] arreglo = calc2x2(arreglo2);
+        System.out.println("valor x: "+arreglo[0]);
+        System.out.println("valor y: "+arreglo[1]);
+      break;
+      case 3:
     }
+    /*double[][] arreglo3 = new double[3][4];
+    for(int i = 0; i < 3; ++i){
+      for(int j = 0; j < 4; ++j){
+        arreglo3[i][j] = scan.nextDouble();
+      }
+    }
+    double[] arreglo = calc3x3(arreglo3);
+    for (double i : arreglo) {
+      System.out.print(" " + i);
+    }
+    */
   }
 }

@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.util.Scanner;
 /**
 * @author Código elaborado en la práctica 2 por:
 * Fernando Arciga Guzmán:      4
@@ -99,9 +101,14 @@ public class Complejo{
 }
 
 class test{
-  public static void main(String[] args){
-    Complejo a = new Complejo(0 , 0);
-    Complejo b = new Complejo(0 , 0);
+  public static void main(String[] args) throws java.io.IOException {
+    Scanner scan = new Scanner(System.in);
+    double num1c1 = scan.nextDouble();
+    double num2c1 = scan.nextDouble();
+    double num1c2 = scan.nextDouble();
+    double num2c2 = scan.nextDouble();
+    Complejo a = new Complejo(num1c1 , num2c1);
+    Complejo b = new Complejo(num1c2 , num2c2);
     Complejo c = new Complejo(); // residual
     c.real = a.real;
     c.imaginario = a.imaginario;
